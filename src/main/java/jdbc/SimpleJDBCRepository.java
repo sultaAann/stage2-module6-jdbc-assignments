@@ -29,6 +29,7 @@ public class SimpleJDBCRepository {
 
     public Long createUser(User user){
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(CREATE_USER_SQL);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
@@ -44,6 +45,7 @@ public class SimpleJDBCRepository {
         User user = new User();
         ResultSet res;
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(FIND_USER_BY_ID_SQL);
             ps.setLong(1, userId);
             res = ps.executeQuery();
@@ -60,6 +62,7 @@ public class SimpleJDBCRepository {
     public User findUserByName(String userName) {
         User user = new User();
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(FIND_USER_BY_NAME_SQL);
             ps.setString(1, userName);
             ps.setString(2, userName);
@@ -77,6 +80,7 @@ public class SimpleJDBCRepository {
     public List<User> findAllUser() {
         List<User> result = new ArrayList<>();
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(FIND_ALL_USERS_SQL);
             ResultSet res = ps.executeQuery();
             while (res.next()) {
@@ -90,6 +94,7 @@ public class SimpleJDBCRepository {
 
     public User updateUser(User user) {
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(UPDATE_USER_SQL);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
@@ -104,6 +109,7 @@ public class SimpleJDBCRepository {
 
     public void deleteUser(Long userId) {
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(DELETE_USER_SQL);
             ps.setLong(1, userId);
             ps.execute();
