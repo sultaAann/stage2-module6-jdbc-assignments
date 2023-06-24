@@ -27,17 +27,21 @@ public class SimpleJDBCRepository {
     private Statement st = null;
 
     public Long createUser(User user){
+        Long id = null;
         try {
             connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(createUserSQL);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setInt(3, user.getAge());
-            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getLong(1);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return user.getId();
+        return id;
     }
 
     public User findUserById(Long userId) {
@@ -48,10 +52,10 @@ public class SimpleJDBCRepository {
             ps = connection.prepareStatement(findUserByIdSQL);
             ps.setLong(1, userId);
             res = ps.executeQuery();
-            user.setId(res.getLong(1));
-            user.setFirstName(res.getString(2));
-            user.setLastName(res.getString(3));
-            user.setAge(res.getInt(4));
+            user.setId(res.getLong("id"));
+            user.setFirstName(res.getString("firstname"));
+            user.setLastName(res.getString("lastname"));
+            user.setAge(res.getInt("age"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -82,7 +86,12 @@ public class SimpleJDBCRepository {
             ps = connection.prepareStatement(findAllUserSQL);
             ResultSet res = ps.executeQuery();
             while (res.next()) {
-                result.add(new User(res.getLong(1), res.getString(2), res.getString(3), res.getInt(4)));
+                result.add(new User(
+                        res.getLong("id"),
+                        res.getString("firstname"),
+                        res.getString("lastname"),
+                        res.getInt("age")
+                ));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -99,10 +108,10 @@ public class SimpleJDBCRepository {
             ps.setInt(3, user.getAge());
             ps.setLong(4, user.getId());
             ps.execute();
+            return user;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return user;
     }
 
     public void deleteUser(Long userId) {
