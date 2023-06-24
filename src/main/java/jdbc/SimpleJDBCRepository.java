@@ -80,23 +80,23 @@ public class SimpleJDBCRepository {
     }
 
     public List<User> findAllUser() {
-        List<User> result = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try {
             connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(findAllUserSQL);
             ResultSet res = ps.executeQuery();
             while (res.next()) {
-                result.add(new User(
-                        res.getLong("id"),
-                        res.getString("firstname"),
-                        res.getString("lastname"),
-                        res.getInt("age")
-                ));
+                User user = new User();
+                user.setId(res.getLong("id"));
+                user.setFirstName(res.getString("firstname"));
+                user.setLastName(res.getString("lastname"));
+                user.setAge(res.getInt("age"));
+                users.add(user);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return result;
+        return users;
     }
 
     public User updateUser(User user) {
