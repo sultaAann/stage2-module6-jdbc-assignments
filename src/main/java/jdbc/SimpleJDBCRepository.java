@@ -40,29 +40,38 @@ public class SimpleJDBCRepository {
         return user.getId();
     }
 
-    public User findUserById(Long userId) throws SQLException{
+    public User findUserById(Long userId) {
+        User user = new User();
         ResultSet res;
         try {
             ps = connection.prepareStatement(FIND_USER_BY_ID_SQL);
             ps.setLong(1, userId);
             res = ps.executeQuery();
+            user.setId(res.getLong(1));
+            user.setFirstName(res.getString(2));
+            user.setLastName(res.getString(3));
+            user.setAge(res.getInt(4));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new User(res.getLong(1), res.getString(2), res.getString(3), res.getInt(4));
+        return user;
     }
 
-    public User findUserByName(String userName) throws SQLException {
-        ResultSet res;
+    public User findUserByName(String userName) {
+        User user = new User();
         try {
             ps = connection.prepareStatement(FIND_USER_BY_NAME_SQL);
             ps.setString(1, userName);
             ps.setString(2, userName);
-            res = ps.executeQuery();
+            ResultSet res = ps.executeQuery();
+            user.setId(res.getLong(1));
+            user.setFirstName(res.getString(2));
+            user.setLastName(res.getString(3));
+            user.setAge(res.getInt(4));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new User(res.getLong(1), res.getString(2), res.getString(3), res.getInt(4));
+        return user;
     }
 
     public List<User> findAllUser() {
