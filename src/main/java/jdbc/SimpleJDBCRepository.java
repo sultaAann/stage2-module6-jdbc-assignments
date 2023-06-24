@@ -20,7 +20,7 @@ public class SimpleJDBCRepository {
     private static final String updateUserSQL = "UPDATE myusers SET firstname = ? WHERE id = ?";
     private static final String deleteUser = "DELETE FROM myusers WHERE id = ?;";
     private static final String findUserByIdSQL = "SELECT * FROM myusers WHERE id = ?;";
-    private static final String findUserByNameSQL = "SELECT * FROM myusers WHERE firstname = ?;";
+    private static final String findUserByNameSQL = "SELECT * FROM myusers WHERE firstname = '%s';";
     private static final String findAllUserSQL = "SELECT * FROM myusers;";
     private Connection connection = null;
     private PreparedStatement ps = null;
@@ -59,7 +59,7 @@ public class SimpleJDBCRepository {
     public User findUserByName(String userName) throws SQLException {
         connection = cds.getConnection();
         st = connection.createStatement();
-        ResultSet res = st.executeQuery(findUserByNameSQL);
+        ResultSet res = st.executeQuery(String.format(findUserByNameSQL, userName));
         return new User((long) res.getInt("id"), res.getString(2), res.getString(3), res.getInt(4));
     }
 
