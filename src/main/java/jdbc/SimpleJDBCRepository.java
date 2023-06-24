@@ -27,7 +27,7 @@ public class SimpleJDBCRepository {
     private PreparedStatement ps = null;
     private Statement st = null;
 
-    public Long createUser(User user) throws SQLException {
+    public Long createUser(User user) throws SQLException, RuntimeException  {
         ps = connection.prepareStatement(CREATE_USER_SQL);
         ps.setString(1, user.getFirstName());
         ps.setString(2, user.getLastName());
@@ -36,14 +36,14 @@ public class SimpleJDBCRepository {
         return user.getId();
     }
 
-    public User findUserById(Long userId) throws SQLException {
+    public User findUserById(Long userId) throws SQLException, RuntimeException {
         ps = connection.prepareStatement(FIND_USER_BY_ID_SQL);
         ps.setLong(1, userId);
         ResultSet res = ps.executeQuery();
         return new User(res.getLong(1), res.getString(2), res.getString(3), res.getInt(4));
     }
 
-    public User findUserByName(String userName) throws SQLException {
+    public User findUserByName(String userName) throws SQLException, RuntimeException  {
         ps = connection.prepareStatement(FIND_USER_BY_NAME_SQL);
         ps.setString(1, userName);
         ps.setString(2, userName);
@@ -51,7 +51,7 @@ public class SimpleJDBCRepository {
         return new User(res.getLong(1), res.getString(2), res.getString(3), res.getInt(4));
     }
 
-    public List<User> findAllUser() throws SQLException {
+    public List<User> findAllUser() throws SQLException, RuntimeException  {
         List<User> result = new ArrayList<>();
         ps = connection.prepareStatement(FIND_ALL_USERS_SQL);
         ResultSet res = ps.executeQuery();
@@ -61,7 +61,7 @@ public class SimpleJDBCRepository {
         return result;
     }
 
-    public User updateUser(User user) throws SQLException {
+    public User updateUser(User user) throws SQLException, RuntimeException  {
         ps = connection.prepareStatement(UPDATE_USER_SQL);
         ps.setString(1, user.getFirstName());
         ps.setString(2, user.getLastName());
@@ -71,7 +71,7 @@ public class SimpleJDBCRepository {
         return user;
     }
 
-    public void deleteUser(Long userId) throws SQLException {
+    public void deleteUser(Long userId) throws SQLException, RuntimeException  {
         ps = connection.prepareStatement(DELETE_USER_SQL);
         ps.setLong(1, userId);
         ps.execute();
