@@ -52,10 +52,12 @@ public class SimpleJDBCRepository {
             ps = connection.prepareStatement(findUserByIdSQL);
             ps.setLong(1, userId);
             res = ps.executeQuery();
-            user.setId(res.getLong("id"));
-            user.setFirstName(res.getString("firstname"));
-            user.setLastName(res.getString("lastname"));
-            user.setAge(res.getInt("age"));
+            while (res.next()) {
+                user.setId(res.getLong("id"));
+                user.setFirstName(res.getString("firstname"));
+                user.setLastName(res.getString("lastname"));
+                user.setAge(res.getInt("age"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -69,10 +71,12 @@ public class SimpleJDBCRepository {
             ps = connection.prepareStatement(findUserByNameSQL);
             ps.setString(1, userName);
             ResultSet res = ps.executeQuery();
-            user.setId(res.getLong(1));
-            user.setFirstName(res.getString(2));
-            user.setLastName(res.getString(3));
-            user.setAge(res.getInt(4));
+            while (res.next()) {
+                user.setId(res.getLong("id"));
+                user.setFirstName(res.getString("firstname"));
+                user.setLastName(res.getString("lastname"));
+                user.setAge(res.getInt("age"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
