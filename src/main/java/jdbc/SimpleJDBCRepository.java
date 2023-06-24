@@ -16,13 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 public class SimpleJDBCRepository {
 
-    private static final String DBNAME = "myfirstdb";
-    private static final String CREATE_USER_SQL = "INSERT INTO " + DBNAME + " (firstname, lastname, age) VALUES (?, ?, ?);";
-    private static final String UPDATE_USER_SQL = "UPDATE " + DBNAME + " SET firstname = ?, lastname = ?, age = ? WHERE id = ?";
-    private static final String DELETE_USER_SQL = "DELETE FROM " + DBNAME + " WHERE id = ?";
-    private static final String FIND_USER_BY_ID_SQL = "SELECT * FROM " + DBNAME + " WHERE id = ?";
-    private static final String FIND_USER_BY_NAME_SQL = "SELECT * FROM " + DBNAME + " WHERE firstname = ? OR lastname = ?";
-    private static final String FIND_ALL_USERS_SQL = "SELECT * FROM " + DBNAME;
+    private static final String MYFIRSTDB = "myfirstdb";
+    private static final String CREATE_USER_SQL = "INSERT INTO " + MYFIRSTDB + " (firstname, lastname, age) VALUES (?, ?, ?);";
+    private static final String UPDATE_USER_SQL = "UPDATE " + MYFIRSTDB + " SET firstname = ?, lastname = ?, age = ? WHERE id = ?";
+    private static final String DELETE_USER_SQL = "DELETE FROM " + MYFIRSTDB  + " WHERE id = ?";
+    private static final String FIND_USER_BY_ID_SQL = "SELECT * FROM " + MYFIRSTDB + " WHERE id = ?";
+    private static final String FIND_USER_BY_NAME_SQL = "SELECT * FROM " + MYFIRSTDB + " WHERE firstname = ? OR lastname = ?";
+    private static final String FIND_ALL_USERS_SQL = "SELECT * FROM " + MYFIRSTDB;
     private Connection connection = null;
     private PreparedStatement ps = null;
     private Statement st = null;
